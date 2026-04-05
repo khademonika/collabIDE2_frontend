@@ -14,20 +14,21 @@ import Footer from '../components/Footer.jsx'
 
 const Home = () => {
   return (
-    <div>
-      <Navbar />
-      <main>
-        <Hero />
-        <Features />
-        <FeatureGrid />
-        <HowItWorks />
-        <UseCases />
-        <Testimonials />
-        <FAQ />
-        <FinalCTA />
-      </main>
-      <Footer />
-    </div>
+    <>
+    <Navbar />
+    <Hero />
+    <main className="main-container">
+      <Features />
+      <FeatureGrid />
+      <HowItWorks />
+      <UseCases />
+      <Testimonials />
+      <FAQ />
+      <FinalCTA />
+    </main>
+
+  <Footer />
+  </>
   )
 }
 
