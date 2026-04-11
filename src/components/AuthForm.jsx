@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import Logo from "./ui/Logo.jsx";
 import { AuthContext } from "../context/AuthContext.jsx"
 import { EyeOpen, EyeClosed, GoogleIcon, GithubIcon } from "./ui/Icons.jsx";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
 
@@ -9,6 +10,7 @@ const AuthForm = () => {
   const [showPass, setShowPass] = useState(false);
   const [user, setUser] = useState({ username: "", password: "", email: "" })
   const isLogin = mode === "login";
+  const navigate = useNavigate();
   const { login, signup } = useContext(AuthContext)
   // pill indicator width/position
   const pillStyle = isLogin
@@ -18,17 +20,21 @@ const AuthForm = () => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
   const handleSubmit = async (e) => {
+    let result
     if (isLogin) {
-      await login(user.email, user.password)
+      result = await login(user.email, user.password)
       console.log(user);
-      
     }
     else {
-      await signup(user.username, user.email, user.password)
+      result = await signup(user.username, user.email, user.password)
       console.log(user);
-
     }
-
+    console.log("result is",result)
+    if (result.success) {
+      navigate("/dashboard")
+    } else {
+      alert(result.message.message || "Something went wrong")
+    }
   }
   return (
     <div style={{
@@ -149,7 +155,7 @@ const AuthForm = () => {
       {/* ── Primary CTA ── */}
       <div className="fade-up delay-4" style={{ marginBottom: 20 }}>
         <button
-          className="btn-primary pulse-glow"
+          className="btn-primary pulse-glow cursor-pointer"
           type="submit"
           onClick={handleSubmit}
           style={{
